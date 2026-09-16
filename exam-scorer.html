@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درصد‌گیری تست کنکور</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #F0EFE8 0%, #E8E8E8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #2c2c2c;
+        }
+
+        .container {
+            background: linear-gradient(135deg, #F0EFE8 0%, #E8E8E8 100%);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 
+                8px 8px 20px rgba(0, 0, 0, 0.08),
+                -8px -8px 20px rgba(255, 255, 255, 0.8);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #2c2c2c;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #8b7d6b;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #5a5a5a;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 18px;
+            border: none;
+            border-radius: 18px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F7F7F7 100%);
+            box-shadow: 
+                inset 2px 2px 8px rgba(0, 0, 0, 0.06),
+                inset -2px -2px 8px rgba(255, 255, 255, 0.8);
+            color: #2c2c2c;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            direction: ltr;
+            text-align: right;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 
+                inset 2px 2px 8px rgba(0, 0, 0, 0.08),
+                inset -2px -2px 8px rgba(255, 255, 255, 0.9),
+                0px 0px 20px rgba(180, 130, 80, 0.15);
+        }
+
+        input::placeholder {
+            color: #a8a8a8;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #B4826B 0%, #9B6E53 100%);
+            color: #FFFFFF;
+            box-shadow: 
+                4px 4px 15px rgba(0, 0, 0, 0.15),
+                -2px -2px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                6px 6px 20px rgba(0, 0, 0, 0.2),
+                -2px -2px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-calculate:active {
+            transform: translateY(0px);
+            box-shadow: 
+                2px 2px 8px rgba(0, 0, 0, 0.1),
+                inset 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #E8E8E8 0%, #D8D8D8 100%);
+            color: #5a5a5a;
+            box-shadow: 
+                4px 4px 15px rgba(0, 0, 0, 0.08),
+                -2px -2px 8px rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                6px 6px 20px rgba(0, 0, 0, 0.12),
+                -2px -2px 8px rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-reset:active {
+            transform: translateY(0px);
+            box-shadow: 
+                2px 2px 8px rgba(0, 0, 0, 0.08),
+                inset 2px 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .result {
+            margin-top: 40px;
+            padding: 30px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F7F7F7 100%);
+            box-shadow: 
+                inset 2px 2px 8px rgba(0, 0, 0, 0.04),
+                inset -2px -2px 8px rgba(255, 255, 255, 0.8);
+            text-align: center;
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #8b7d6b;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+
+        .result-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: #B4826B;
+            margin: 10px 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .result-unit {
+            font-size: 24px;
+            color: #8b7d6b;
+        }
+
+        .error {
+            color: #d87a6f;
+            padding: 12px 18px;
+            background: rgba(216, 122, 111, 0.1);
+            border-radius: 12px;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .result-value {
+                font-size: 42px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>درصد‌گیری کنکور</h1>
+            <p>محاسبه‌ی امتیاز و درصد تست</p>
+        </div>
+
+        <div class="form-group">
+            <label for="totalQuestions">تعداد کل سوالات</label>
+            <input 
+                type="number" 
+                id="totalQuestions" 
+                placeholder="مثال: 150"
+                min="0"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="correctAnswers">تعداد سوالات درست</label>
+            <input 
+                type="number" 
+                id="correctAnswers" 
+                placeholder="مثال: 100"
+                min="0"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="incorrectAnswers">تعداد سوالات غلط</label>
+            <input 
+                type="number" 
+                id="incorrectAnswers" 
+                placeholder="مثال: 50"
+                min="0"
+            >
+        </div>
+
+        <div class="button-group">
+            <button class="btn-calculate" onclick="calculateScore()">محاسبه</button>
+            <button class="btn-reset" onclick="resetForm()">پاک‌کردن</button>
+        </div>
+
+        <div id="error" class="error"></div>
+
+        <div id="result" class="result">
+            <div class="result-label">درصد نهایی</div>
+            <div class="result-value" id="scoreValue">0</div>
+            <div class="result-unit">%</div>
+        </div>
+    </div>
+
+    <script>
+        function calculateScore() {
+            const totalInput = document.getElementById('totalQuestions');
+            const correctInput = document.getElementById('correctAnswers');
+            const incorrectInput = document.getElementById('incorrectAnswers');
+            const errorDiv = document.getElementById('error');
+            const resultDiv = document.getElementById('result');
+            const scoreValue = document.getElementById('scoreValue');
+
+            // پاک کردن خطا
+            errorDiv.classList.remove('show');
+            errorDiv.textContent = '';
+
+            // دریافت مقادیر
+            const total = parseInt(totalInput.value);
+            const correct = parseInt(correctInput.value);
+            const incorrect = parseInt(incorrectInput.value);
+
+            // بررسی معتبر بودن
+            if (!totalInput.value || !correctInput.value || !incorrectInput.value) {
+                errorDiv.textContent = '❌ لطفا تمام فیلدها را پر کنید';
+                errorDiv.classList.add('show');
+                resultDiv.classList.remove('show');
+                return;
+            }
+
+            if (total <= 0 || correct < 0 || incorrect < 0) {
+                errorDiv.textContent = '❌ مقادیر باید بزرگتر از صفر باشند';
+                errorDiv.classList.add('show');
+                resultDiv.classList.remove('show');
+                return;
+            }
+
+            if (correct + incorrect > total) {
+                errorDiv.textContent = '❌ مجموع درست و غلط نمی‌تواند بیشتر از کل باشد';
+                errorDiv.classList.add('show');
+                resultDiv.classList.remove('show');
+                return;
+            }
+
+            // محاسبه درصد طبق فرمول
+            const tamp_one = (3 * correct) - incorrect;
+            const tamp_two = total * 3;
+            const tamp_all = tamp_one / tamp_two;
+            const tamp_end = tamp_all * 100;
+            const ebdi = Math.round(tamp_end);
+
+            // نمایش نتیجه
+            scoreValue.textContent = ebdi;
+            resultDiv.classList.add('show');
+        }
+
+        function resetForm() {
+            document.getElementById('totalQuestions').value = '';
+            document.getElementById('correctAnswers').value = '';
+            document.getElementById('incorrectAnswers').value = '';
+            document.getElementById('error').classList.remove('show');
+            document.getElementById('result').classList.remove('show');
+        }
+
+        // Enter برای محاسبه
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateScore();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
